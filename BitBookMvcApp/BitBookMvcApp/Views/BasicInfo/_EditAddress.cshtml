@@ -1,0 +1,44 @@
+﻿@model BitBookMvcApp.Models.Address
+
+@using (Html.BeginForm("EditAddress", "BasicInfo"))
+{
+    <div class="form-horizontal">
+        @if (Model != null)
+        {
+            @Html.HiddenFor(m=>m.Id)
+            @Html.HiddenFor(m=>m.UserId)
+            <div class="form-group">
+                @Html.LabelFor(m => m.CurrentCity, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.CurrentCity, new { @class = "form-control", value = (Model.CurrentCity) })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.CurrentCountry, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.CurrentCountry, new { @class = "form-control", value = (Model.CurrentCountry) })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.FromCity, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.FromCity, new { @class = "form-control", value = (Model.FromCity) })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.FromCountry, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.FromCountry, new { @class = "form-control", value = (Model.FromCountry) })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-2">
+                    <input type="submit" class="btn btn-default" value="Save" />
+                </div>
+            </div>
+        }
+    </div>
+}
+<div>
+    @Html.ActionLink("Cancel", "Index")
+</div>

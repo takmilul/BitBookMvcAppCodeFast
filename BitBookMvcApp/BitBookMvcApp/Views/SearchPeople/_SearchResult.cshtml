@@ -1,0 +1,37 @@
+﻿@model List<BitBookMvcApp.ViewModels.SearchResult>
+
+@using (Html.BeginForm("ResponseSearch", "SearchPeople"))
+{
+    if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            string value;
+            if (item.IsAccepted == null)
+            {
+                value = "Add Friend";
+            }
+            else
+            {
+                value = item.IsAccepted.Value ? "Unfriend" : "Accept";
+            }
+
+            @Html.HiddenFor(model => model.First().SearchedProfileId, item.SearchedProfileId)
+            <div class="form-horizontal">
+                <div class="form-group well">
+
+                    @Html.LabelFor(modelItem => item.Name, item.Name, new { @class = "col-md-2 control-label" })
+
+                    <div class="">
+                        <input type="submit" value=@(value) id="addButton" name="button" class="col-md-offset-2 col-md-8 btn btn-default" />
+
+                        @if (item.IsAccepted != null && !item.IsAccepted.Value)
+                        {
+                            <input type="submit" value="Ignore" name="button" id="addButton" class="col-md-offset-2 col-md-8 btn btn-default" />
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }
+}

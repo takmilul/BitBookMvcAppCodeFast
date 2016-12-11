@@ -1,0 +1,20 @@
+﻿@model BitBookMvcApp.Models.Profile
+
+@{
+    ViewBag.Title = "Details";
+    string userName = (string) Session["User"];
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>RegistrationAndLogin</h4>
+    <hr/>
+    <h3>@userName</h3>
+    <dl class="dl-horizontal">
+    </dl>
+</div>
+<p>
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |*@
+    @Html.ActionLink("Back to List", "Index")
+</p>

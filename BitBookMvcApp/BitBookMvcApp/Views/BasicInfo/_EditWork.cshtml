@@ -1,0 +1,74 @@
+﻿@using BitBookMvcApp.Models
+@model Work
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true)
+        @Html.Hidden("Id", Model.Id)
+        @Html.Hidden("UserId", Model.UserId)
+
+        <div class="form-group">
+            @Html.Label("Company", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("Company", Model.Company, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Position", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("Position", Model.Position, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Description", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("Description", Model.Description, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("City", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("City", Model.City, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Country", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("Country", Model.Country, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("From Date", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("FromDate", Model.FromDate, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("To Date", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("ToDate", Model.ToDate, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Cancel", "Index")
+</div>

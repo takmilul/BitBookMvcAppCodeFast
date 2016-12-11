@@ -1,0 +1,17 @@
+﻿@model BitBookMvcApp.Models.Profile
+@{
+    ViewBag.Title = "Home Page";
+    string userName = (string)Session["User"];
+}
+
+<div>
+    
+    <hr />
+    <h3>Welcome @userName</h3>
+    @Html.ActionLink("Basic Info", "Index", "BasicInfo")
+    <dl class="dl-horizontal"></dl>
+    <hr/>
+    <br/>
+    <br/>
+    @Html.ActionLink("Logout", "Logout")
+</div>

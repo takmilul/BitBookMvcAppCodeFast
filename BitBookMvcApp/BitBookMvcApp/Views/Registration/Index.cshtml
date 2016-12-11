@@ -1,0 +1,61 @@
+﻿@using BitBookMvcApp.Models
+@model IEnumerable<BitBookMvcApp.Models.Profile>
+
+@{
+    ViewBag.Title = "Index";
+    int serial = 0;
+    List<Relationship> relationships = (List<Relationship>) Session["Relationship"];
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Signup")
+</p>
+<table class="table">
+    <tr>
+        <th></th>
+    </tr>
+    <tr>
+        <th>Serial</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>DOB</th>
+        <th>Gender</th>
+        <th>Relationship</th>
+        <th>RelationshipWithId</th>
+        <th>Religion</th>
+        <th>About</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+        <tr>
+            <td>@(++serial)</td>
+            <td>@item.FullName</td>
+            <td>@item.User.Email</td>
+            <td>@item.DOB</td>
+            <td>@item.Gender</td>
+            <td>
+
+                @{
+                    var firstOrDefault = relationships.FirstOrDefault(r=>r.Id==item.RelationshipId);
+                }
+                @if (firstOrDefault != null)
+                {
+                    @firstOrDefault.RelationshipName
+                }</td>
+            <td>@item.RelationshipWithId</td>
+            <td>@item.Religion</td>
+            <td>@item.About</td>
+            <td>
+                @*            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @*            @Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+            </td>
+        </tr>
+    }
+
+</table>

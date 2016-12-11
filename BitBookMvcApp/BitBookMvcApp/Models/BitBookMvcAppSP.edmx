@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BitBookMVCAppDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="SP_AddComment" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PostId" Type="int" Mode="In" />
+          <Parameter Name="Comment" Type="varchar" Mode="In" />
+          <Parameter Name="Time" Type="datetime" Mode="In" />
+          <Parameter Name="WhoCommentedId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_AddEducation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Institute" Type="varchar" Mode="In" />
+          <Parameter Name="FromDate" Type="date" Mode="In" />
+          <Parameter Name="ToDate" Type="date" Mode="In" />
+          <Parameter Name="HasDegree" Type="bit" Mode="In" />
+          <Parameter Name="Degree" Type="varchar" Mode="In" />
+          <Parameter Name="UserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_AddFamilyMember" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FamilyMemberId" Type="int" Mode="In" />
+          <Parameter Name="Relationship" Type="varchar" Mode="In" />
+          <Parameter Name="UserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_AddInterest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="InterestedIn" Type="varchar" Mode="In" />
+          <Parameter Name="UserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_AddMobileNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MobileNo" Type="varchar" Mode="In" />
+          <Parameter Name="UserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_AddPost" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Post" Type="varchar" Mode="In" />
+          <Parameter Name="PicUrl" Type="varchar" Mode="In" />
+          <Parameter Name="IsText" Type="bit" Mode="In" />
+          <Parameter Name="IsPic" Type="bit" Mode="In" />
+          <Parameter Name="Date" Type="datetime" Mode="In" />
+          <Parameter Name="UserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_AddProfessionalSkill" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Skill" Type="varchar" Mode="In" />
+          <Parameter Name="UserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_AddWork" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Company" Type="varchar" Mode="In" />
+          <Parameter Name="Position" Type="varchar" Mode="In" />
+          <Parameter Name="Description" Type="varchar" Mode="In" />
+          <Parameter Name="City" Type="varchar" Mode="In" />
+          <Parameter Name="Country" Type="varchar" Mode="In" />
+          <Parameter Name="FromDate" Type="date" Mode="In" />
+          <Parameter Name="ToDate" Type="date" Mode="In" />
+          <Parameter Name="UserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_GetFriendRequestList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ReceiverId" Type="int" Mode="In" />
+          <Parameter Name="IsAccepted" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="SP_InsertUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SP_SendFriendRequestList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SenderId" Type="int" Mode="In" />
+          <Parameter Name="IsAccepted" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="SP_ShowFriendList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_ViewLikeList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PostId" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="BitBookMVCAppDBModelStoreContainer" />
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BitBookMVCAppDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="BitBookMVCAppDBEntities" annotation:LazyLoadingEnabled="true" >
+          <FunctionImport Name="SP_AddComment" ReturnType="Collection(Decimal)">
+            <Parameter Name="PostId" Mode="In" Type="Int32" />
+            <Parameter Name="Comment" Mode="In" Type="String" />
+            <Parameter Name="Time" Mode="In" Type="DateTime" />
+            <Parameter Name="WhoCommentedId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_AddEducation" ReturnType="Collection(Decimal)">
+            <Parameter Name="Institute" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+            <Parameter Name="HasDegree" Mode="In" Type="Boolean" />
+            <Parameter Name="Degree" Mode="In" Type="String" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_AddFamilyMember" ReturnType="Collection(Decimal)">
+            <Parameter Name="FamilyMemberId" Mode="In" Type="Int32" />
+            <Parameter Name="Relationship" Mode="In" Type="String" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_AddInterest" ReturnType="Collection(Decimal)">
+            <Parameter Name="InterestedIn" Mode="In" Type="String" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_AddMobileNo" ReturnType="Collection(Decimal)">
+            <Parameter Name="MobileNo" Mode="In" Type="String" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_AddPost" ReturnType="Collection(Decimal)">
+            <Parameter Name="Post" Mode="In" Type="String" />
+            <Parameter Name="PicUrl" Mode="In" Type="String" />
+            <Parameter Name="IsText" Mode="In" Type="Boolean" />
+            <Parameter Name="IsPic" Mode="In" Type="Boolean" />
+            <Parameter Name="Date" Mode="In" Type="DateTime" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_AddProfessionalSkill" ReturnType="Collection(Decimal)">
+            <Parameter Name="Skill" Mode="In" Type="String" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_AddWork" ReturnType="Collection(Decimal)">
+            <Parameter Name="Company" Mode="In" Type="String" />
+            <Parameter Name="Position" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="City" Mode="In" Type="String" />
+            <Parameter Name="Country" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_GetFriendRequestList" ReturnType="Collection(BitBookMVCAppDBModel.SP_GetFriendRequestList_Result)">
+            <Parameter Name="ReceiverId" Mode="In" Type="Int32" />
+            <Parameter Name="IsAccepted" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="SP_InsertUser" ReturnType="Collection(Decimal)">
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_SendFriendRequestList" ReturnType="Collection(BitBookMVCAppDBModel.SP_SendFriendRequestList_Result)">
+            <Parameter Name="SenderId" Mode="In" Type="Int32" />
+            <Parameter Name="IsAccepted" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ShowFriendList" ReturnType="Collection(BitBookMVCAppDBModel.SP_ShowFriendList_Result)">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_ViewLikeList" ReturnType="Collection(BitBookMVCAppDBModel.SP_ViewLikeList_Result)">
+            <Parameter Name="PostId" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="SP_GetFriendRequestList_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="SenderId" Nullable="true" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PicUrl" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="SP_SendFriendRequestList_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="ReceiverId" Nullable="true" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PicUrl" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="SP_ShowFriendList_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="FriendId" Nullable="true" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PicUrl" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="SP_ViewLikeList_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="PostId" Nullable="true" />
+          <Property Type="Int32" Name="WhoLikedId" Nullable="true" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PicUrl" Nullable="true" MaxLength="500" />
+          <Property Type="Int32" Name="TotalLike" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BitBookMVCAppDBModelStoreContainer" CdmEntityContainer="BitBookMVCAppDBEntities" >
+          <FunctionImportMapping FunctionImportName="SP_AddComment" FunctionName="BitBookMVCAppDBModel.Store.SP_AddComment" />
+          <FunctionImportMapping FunctionImportName="SP_AddEducation" FunctionName="BitBookMVCAppDBModel.Store.SP_AddEducation" />
+          <FunctionImportMapping FunctionImportName="SP_AddFamilyMember" FunctionName="BitBookMVCAppDBModel.Store.SP_AddFamilyMember" />
+          <FunctionImportMapping FunctionImportName="SP_AddInterest" FunctionName="BitBookMVCAppDBModel.Store.SP_AddInterest" />
+          <FunctionImportMapping FunctionImportName="SP_AddMobileNo" FunctionName="BitBookMVCAppDBModel.Store.SP_AddMobileNo" />
+          <FunctionImportMapping FunctionImportName="SP_AddPost" FunctionName="BitBookMVCAppDBModel.Store.SP_AddPost" />
+          <FunctionImportMapping FunctionImportName="SP_AddProfessionalSkill" FunctionName="BitBookMVCAppDBModel.Store.SP_AddProfessionalSkill" />
+          <FunctionImportMapping FunctionImportName="SP_AddWork" FunctionName="BitBookMVCAppDBModel.Store.SP_AddWork" />
+          <FunctionImportMapping FunctionImportName="SP_GetFriendRequestList" FunctionName="BitBookMVCAppDBModel.Store.SP_GetFriendRequestList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BitBookMVCAppDBModel.SP_GetFriendRequestList_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SenderId" ColumnName="SenderId" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="PicUrl" ColumnName="PicUrl" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_InsertUser" FunctionName="BitBookMVCAppDBModel.Store.SP_InsertUser" />
+          <FunctionImportMapping FunctionImportName="SP_SendFriendRequestList" FunctionName="BitBookMVCAppDBModel.Store.SP_SendFriendRequestList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BitBookMVCAppDBModel.SP_SendFriendRequestList_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ReceiverId" ColumnName="ReceiverId" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="PicUrl" ColumnName="PicUrl" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_ShowFriendList" FunctionName="BitBookMVCAppDBModel.Store.SP_ShowFriendList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BitBookMVCAppDBModel.SP_ShowFriendList_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FriendId" ColumnName="FriendId" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="PicUrl" ColumnName="PicUrl" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_ViewLikeList" FunctionName="BitBookMVCAppDBModel.Store.SP_ViewLikeList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BitBookMVCAppDBModel.SP_ViewLikeList_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PostId" ColumnName="PostId" />
+                <ScalarProperty Name="WhoLikedId" ColumnName="WhoLikedId" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="PicUrl" ColumnName="PicUrl" />
+                <ScalarProperty Name="TotalLike" ColumnName="TotalLike" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

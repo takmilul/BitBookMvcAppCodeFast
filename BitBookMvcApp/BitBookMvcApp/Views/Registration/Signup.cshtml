@@ -1,0 +1,120 @@
+﻿@model BitBookMvcApp.ViewModels.Registration.RegistrationAndLogin
+
+@{
+    ViewBag.Title = "Signup";
+}
+<h4 style="color: red">
+    @if ((string) Session["LoginFailed"] != null)
+    {
+        @((string) Session["LoginFailed"])
+    }
+</h4>
+@using (Html.BeginForm("Login", "Registration", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h2>Login</h2>
+        <hr />
+        @Html.ValidationSummary(true)
+        
+        <div class="form-group">
+            @Html.LabelFor(m => m.Login.Email, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Login.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Login.Email)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Login.Password, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.Login.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Login.Password)
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Signin" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<hr />
+
+@using (Html.BeginForm("Signup", "Registration", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h2>User Registration</h2>
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            @Html.LabelFor(m => m.Registration.FirstName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Registration.FirstName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Registration.FirstName)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Registration.LastName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Registration.LastName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Registration.LastName)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Registration.Email, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Registration.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Registration.Email)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Registration.Password, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.Registration.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Registration.Password)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Registration.ConfirmPassword, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.Registration.ConfirmPassword, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Registration.ConfirmPassword)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Registration.DateOfBirth, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownList("day", new SelectList((List<SelectListItem>)Session["Days"], "Value", "Text"), new { @class = "dropdown dropdown-toggle" })
+                @Html.DropDownList("Month", new SelectList((List<SelectListItem>)Session["Months"], "Value", "Text"), new { @class = "dropdown" })
+                @Html.DropDownList("year", new SelectList((List<SelectListItem>)Session["Years"], "Value", "Text"), new { @class = "dropdown" })
+                @Html.ValidationMessageFor(m => m.Registration.DateOfBirth)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Registration.Gender, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.RadioButtonFor(x => x.Registration.Gender, "Male")Male
+                @(Html.RadioButtonFor(x => x.Registration.Gender, "Female"))Female
+                @Html.ValidationMessageFor(m => m.Registration.Gender)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Signup" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

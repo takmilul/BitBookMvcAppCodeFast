@@ -1,0 +1,279 @@
+﻿@using BitBookMvcApp.Models
+@model BitBookMvcApp.ViewModels.BasicInfo
+@{
+    ViewBag.Title = "Index";
+    var relationships = (List<Relationship>)Session["Relationship"];
+    var familyRelationships = (List<FamilyRelationship>)Session["FamilyRelationship"];
+}
+
+<h4>Address</h4>
+<hr />
+<div id="address">
+    @if (Model.Address != null)
+    {
+        <label>Current City: @Model.Address.CurrentCity </label><br />
+        <label>Current Country: @Model.Address.CurrentCountry </label><br />
+        <label>From City: @Model.Address.FromCity </label><br />
+        <label>From Country: @Model.Address.FromCountry </label><br />
+        <br />
+        using (Ajax.BeginForm("BasicActionResult", "BasicInfo", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "address", InsertionMode = InsertionMode.Replace }))
+        {
+            <input type="submit" class="btn btn-link" id="editButton" value="Edit Address" name="buttonType" /> }
+    }
+</div>
+
+@using (Ajax.BeginForm("BasicActionResult", "BasicInfo",
+    new AjaxOptions
+    {
+        HttpMethod = "Post",
+        UpdateTargetId = "address",
+        InsertionMode = InsertionMode.InsertAfter
+    }))
+{
+    if (Model == null || Model.Address == null)
+    {
+        <input type="submit" class="btn btn-link" id="addButton" value="Add Address" name="buttonType" onclick="hide" />
+    }
+}
+
+<br />
+<h4>Education</h4>
+<hr />
+<div id="education">
+    @if (Model.Educations != null && Model.Educations.Count > 0)
+    {
+        foreach (Education education in Model.Educations)
+        {
+
+            <label>Institute: @education.Institute </label><br />
+            if (education.HasDegree == true)
+            {
+                <label>Degree: @education.Degree </label><br />
+            }
+            <label>From: @education.FromDate </label><br />
+            <label>To: @education.ToDate </label><br /><br />
+            using (Ajax.BeginForm("BasicActionResult", "BasicInfo", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "education", InsertionMode = InsertionMode.Replace }))
+            {
+                @Html.Hidden("id", education.Id)
+                <input type="submit" class="btn btn-link" value="Edit Education" name="buttonType" onclick="hide" id=@education.Id />
+            }
+        }
+        <br />
+    }
+</div>
+
+@using (Ajax.BeginForm("BasicActionResult", "BasicInfo",
+    new AjaxOptions
+    {
+        HttpMethod = "Post",
+        UpdateTargetId = "education",
+        InsertionMode = InsertionMode.Replace
+    }))
+{
+    <input type="submit" class="btn btn-link" id="addButton" value="Add Education" name="buttonType" onclick="hide" />
+}
+
+<br />
+<h4>Professional Skill</h4>
+<hr />
+<div id="skills">
+    @if (Model.ProfessionalSkills != null && Model.ProfessionalSkills.Count > 0)
+    {
+        foreach (ProfessionalSkill professionalSkill in Model.ProfessionalSkills)
+        {
+            <label>Skill: @professionalSkill.Skill </label><br />
+            using (Ajax.BeginForm("BasicActionResult", "BasicInfo", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "skills", InsertionMode = InsertionMode.Replace }))
+            {
+                @Html.Hidden("id", professionalSkill.Id)
+                <input type="submit" class="btn btn-link" value="Edit Skills" name="buttonType" />
+            }
+        }
+        <br />
+    }
+</div>
+
+@using (Ajax.BeginForm("BasicActionResult", "BasicInfo",
+    new AjaxOptions
+    {
+        HttpMethod = "Post",
+        UpdateTargetId = "skills",
+        InsertionMode = InsertionMode.Replace
+    }))
+{
+    <input type="submit" class="btn btn-link" id="addButton" value="Add Skills" name="buttonType" onclick="hide" />
+}
+
+<br />
+<h4>Experience</h4>
+<hr />
+<div id="experience">
+    @if (Model.Works != null && Model.Works.Count > 0)
+    {
+        foreach (Work work in Model.Works)
+        {
+            <label>Company: @work.Company </label><br />
+            <label>@work.Position </label><br />
+            <label>@work.Description </label><br />
+            <label>@work.City, </label>
+            <label>@work.Country </label><br />
+            <label>@work.FromDate to </label>
+            <label>@work.ToDate </label><br />
+            using (Ajax.BeginForm("BasicActionResult", "BasicInfo", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "experience", InsertionMode = InsertionMode.Replace }))
+            {
+                @Html.Hidden("id", work.Id)
+                <input type="submit" class="btn btn-link" value="Edit Experience" name="buttonType" />
+            }
+        }
+        <br />
+    }
+</div>
+
+@using (Ajax.BeginForm("BasicActionResult", "BasicInfo",
+    new AjaxOptions
+    {
+        HttpMethod = "Post",
+        UpdateTargetId = "experience",
+        InsertionMode = InsertionMode.Replace
+    }))
+{
+    <input type="submit" class="btn btn-link" id="addButton" value="Add Experience" name="buttonType" onclick="hide" />
+}
+
+<br />
+<h4>Family Members</h4>
+<hr />
+<div id="familyMember">
+    @if (Model.FamilyMembers != null && Model.FamilyMembers.Count > 0)
+    {
+        foreach (FamilyMember familyMember in Model.FamilyMembers)
+        {
+            <img alt="photo" />
+            <label>Name: </label>
+            <label>@familyRelationships.FirstOrDefault(r => r.Id == familyMember.RelationshipId).RelationshipName </label><br />
+            using (Ajax.BeginForm("BasicActionResult", "BasicInfo", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "familyMember", InsertionMode = InsertionMode.Replace }))
+            {
+                @Html.Hidden("id", familyMember.Id)
+                <input type="submit" class="btn btn-link" value="Edit Family Member" name="buttonType" />
+            }
+        }
+        <br />
+    }
+</div>
+
+@using (Ajax.BeginForm("BasicActionResult", "BasicInfo",
+    new AjaxOptions
+    {
+        HttpMethod = "Post",
+        UpdateTargetId = "familyMember",
+        InsertionMode = InsertionMode.Replace
+    }))
+{
+    <input type="submit" class="btn btn-link" id="addButton" value="Add Family Member" name="buttonType" onclick="hide" />
+}
+
+<br />
+<h4>Profile</h4>
+<hr />
+<div id="personal">
+    @if (Model.Profile != null)
+    {
+        <label>Name: @Model.Profile.FullName </label><br />
+        <label>Date Of Birth: @Model.Profile.DOB </label><br />
+        <label>Gender: @Model.Profile.Gender </label><br />
+        <label>Relationship:@relationships.FirstOrDefault(r => r.Id == Model.Profile.RelationshipId).RelationshipName </label>
+        <label>With @Model.Profile.RelationshipWithId </label><br />
+        <label>Religion: @Model.Profile.Religion </label><br />
+        <label>About: @Model.Profile.About </label><br />
+        using (Ajax.BeginForm("BasicActionResult", "BasicInfo", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "personal", InsertionMode = InsertionMode.Replace }))
+        {
+            @Html.Hidden("id", Model.Id)
+            <input type="submit" class="btn btn-link" value="Edit Personal Information" name="buttonType" />
+        }
+        <br />
+    }
+</div>
+
+@using (Ajax.BeginForm("BasicActionResult", "BasicInfo",
+    new AjaxOptions
+    {
+        HttpMethod = "Post",
+        UpdateTargetId = "personal",
+        InsertionMode = InsertionMode.Replace
+    }))
+{
+    if (Model == null || Model.Profile == null)
+    {
+        <input type="submit" class="btn btn-link" id="addButton" value="Add Personal Information" name="buttonType" onclick="hide" />
+    }
+}
+
+<br />
+<h4>Mobile No</h4>
+<hr />
+<div id="mobileNo">
+    @if (Model.MobileNos != null && Model.MobileNos.Count > 0)
+    {
+        foreach (MobileNo mobileNo in Model.MobileNos)
+        {
+            <label>Contact No: @mobileNo.MobileNo1 </label><br />
+            using (Ajax.BeginForm("BasicActionResult", "BasicInfo", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "mobileNo", InsertionMode = InsertionMode.Replace }))
+            {
+                @Html.Hidden("id", mobileNo.Id)
+                <input type="submit" class="btn btn-link" value="Edit Mobile No" name="buttonType" />
+            }
+        }
+        <br />
+    }
+</div>
+
+@using (Ajax.BeginForm("BasicActionResult", "BasicInfo",
+    new AjaxOptions
+    {
+        HttpMethod = "Post",
+        UpdateTargetId = "mobileNo",
+        InsertionMode = InsertionMode.Replace
+    }))
+{
+    <input type="submit" class="btn btn-link" id="addButton" value="Add Mobile No" name="buttonType" onclick="hide" />
+}
+
+<br />
+<h4>Interests</h4>
+<hr />
+<div id="interest">
+    @if (Model.Interests != null && Model.Interests.Count > 0)
+    {
+        foreach (Interest interest in Model.Interests)
+        {
+            <label>Interested In: @interest.InterestedIn </label><br />
+            using (Ajax.BeginForm("BasicActionResult", "BasicInfo", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "interest", InsertionMode = InsertionMode.Replace }))
+            {
+                @Html.Hidden("id", interest.Id)
+                <input type="submit" class="btn btn-link" value="Edit Interest" name="buttonType" />
+            }
+        }
+        <br />
+    }
+</div>
+
+@using (Ajax.BeginForm("BasicActionResult", "BasicInfo",
+    new AjaxOptions
+    {
+        HttpMethod = "Post",
+        UpdateTargetId = "interest",
+        InsertionMode = InsertionMode.Replace
+    }))
+{
+    <input type="submit" class="btn btn-link" id="addButton" value="Add Interest" name="buttonType" onclick="hide" />
+}
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#addButton").click(function () { $("#addButton").hide });
+        $("#editButton").click(function () { $("#editButton").hide });
+    });
+</script>

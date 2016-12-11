@@ -1,0 +1,32 @@
+﻿@model IEnumerable<BitBookMvcApp.Models.Profile>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@using (Ajax.BeginForm("Search", "SearchPeople",
+    new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "searchResult",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId = ""
+    }))
+{
+    <div class="form-inline">
+        <div class="form-group">
+            @Html.TextBox("Name", null, new {@class = "form-control"})
+            <input type="submit" class="btn btn-primary" value="Search" name="Search" id="search"/>
+        </div>
+    </div>
+    <br/>
+    <br/>
+}
+
+<div id="searchResult">
+
+</div>
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>

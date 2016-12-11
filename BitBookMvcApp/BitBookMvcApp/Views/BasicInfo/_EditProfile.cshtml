@@ -1,0 +1,96 @@
+﻿@using BitBookMvcApp.Models
+@model Profile
+@{
+    var relationships = (List<Relationship>)Session["Relationship"];
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Profile</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.UserId)
+        @Html.HiddenFor(model=> model.HasRelationship)
+        @Html.HiddenFor(model=> model.CreateDate)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FirstName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LastName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DOB, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("day", new SelectList((List<SelectListItem>)Session["Days"], "Value", "Text", Convert.ToDateTime(Model.DOB).Day), new { @class = "dropdown dropdown-toggle" })
+                @Html.DropDownList("Month", new SelectList((List<SelectListItem>)Session["Months"], "Value", "Text",  Convert.ToDateTime(Model.DOB).Month), new { @class = "dropdown" })
+                @Html.DropDownList("year", new SelectList((List<SelectListItem>)Session["Years"], "Value", "Text", Convert.ToDateTime(Model.DOB).Year), new { @class = "dropdown" })
+                @Html.ValidationMessageFor(m => m.DOB)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Gender, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.RadioButtonFor(x => x.Gender, "Male")Male
+                @Html.RadioButtonFor(x => x.Gender, "Female")Female
+                @Html.ValidationMessageFor(model => model.Gender)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Religion, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Religion, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Religion)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RelationshipId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.RelationshipId, new SelectList(relationships, "Id", "RelationshipName", Model.RelationshipId))
+                @Html.ValidationMessageFor(model => model.RelationshipId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RelationshipWithId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.RelationshipWithId, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RelationshipWithId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.About, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.About, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.About)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Cancel", "Index")
+</div>
