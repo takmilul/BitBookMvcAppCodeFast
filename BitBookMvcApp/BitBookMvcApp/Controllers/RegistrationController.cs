@@ -17,29 +17,6 @@ namespace BitBookMvcApp.Controllers
     {
         private BitBookMvcAppDbContext db = new BitBookMvcAppDbContext();
 
-
-        public ActionResult Index()
-        {
-            
-            return View(db.Profiles.ToList());
-        }
-
-        
-        public ActionResult Details(int? id)
-        {
-            /*if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Profile profile = db.Profiles.Find(id);
-            if (profile == null)
-            {
-                return HttpNotFound();
-            }*/
-            return View();
-        }
-
-        
         public ActionResult Signup()
         {
             if (User.Identity.IsAuthenticated)
@@ -51,7 +28,6 @@ namespace BitBookMvcApp.Controllers
             Session["Years"] = YearList();
             return View();
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -77,7 +53,7 @@ namespace BitBookMvcApp.Controllers
                 profile.UserId = aUser.Id;
                 db.Profiles.Add(profile);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+//                return RedirectToAction("Index");
             }
 
             Session["Days"] = DaysDropDown();

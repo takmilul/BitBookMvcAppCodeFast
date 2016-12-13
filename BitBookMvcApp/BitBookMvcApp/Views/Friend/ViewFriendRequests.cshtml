@@ -1,0 +1,30 @@
+﻿@model List<BitBookMvcApp.Models.ViewModels.FriendListView>
+    @{
+        ViewBag.Title = "ViewFriendRequests";
+    }
+
+    <h2>View Friend Requests</h2>
+
+    @if (Model != null)
+    {
+        @Html.BeginForm("ResponseRequest", "Friend")
+        {
+            foreach (var item in Model)
+            {
+                @Html.Hidden("friendId", item.FriendId)
+                <div class="form-horizontal">
+                    <div class="row well form-group">
+                        <div class="col-md-4">
+                            @Html.ActionLink(item.Name, "", "", new { @class = "control-label" })
+                        </div>
+                        <div class="col-md-offset-2 col-md-2">
+                            <input type="submit" value="Accept" name="responseType" class="btn btn-primary" />
+                        </div>
+                        <div class="col-md-offset-2 col-md-2">
+                            <input type="submit" value="Ignore" name="responseType" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    }

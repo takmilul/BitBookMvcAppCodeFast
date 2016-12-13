@@ -8,11 +8,11 @@
 
 @if (Model != null)
 {
-    @Html.BeginForm("ViewAllFriend", "Friend")
-        {
-    foreach (var item in Model)
+    @Html.BeginForm("Unfriend", "Friend")
     {
-        
+        foreach (var item in Model)
+        {
+            @Html.Hidden("friendId", item.FriendId)
             <div class="form-horizontal">
                 <div class="row well form-group">
                     <div class="col-md-offset-2 col-md-4">
