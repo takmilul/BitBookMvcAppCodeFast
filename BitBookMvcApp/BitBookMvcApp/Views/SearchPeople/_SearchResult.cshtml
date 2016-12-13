@@ -1,67 +1,70 @@
 ﻿@model List<BitBookMvcApp.Models.ViewModels.SearchResult>
 @{
-    string value=null;
+    string value = null;
+    int userId = (int)Session["UserId"];
 }
 
 @if (Model != null)
 {
     foreach (var item in Model)
     {
-        
-        string htmlClass;
-        string onClick = "";
-        if (item.IsAccepted == null)
+        if (item.SearchedProfileId != userId)
         {
-            value = "Add Friend";
-            htmlClass = "col-md-offset-2 col-md-8 btn btn-primary";
-        }
-        else
-        {
-
-            if (item.IsAccepted.Value)
+            string htmlClass;
+            string onClick = "";
+            if (item.IsAccepted == null)
             {
-                value = "Unfriend";
-                htmlClass = "col-md-offset-2 col-md-8 btn btn-danger";
+                value = "Add Friend";
+                htmlClass = "col-md-offset-2 col-md-8 btn btn-primary";
             }
             else
             {
-                if (item.ReceiverId == item.SearchedProfileId)
+
+                if (item.IsAccepted.Value)
                 {
-                    value = "Friend Request Sent";
-                    htmlClass = "col-md-offset-2 col-md-8 btn btn-default disable";
-                    <p ></p>
+                    value = "Unfriend";
+                    htmlClass = "col-md-offset-2 col-md-8 btn btn-danger";
                 }
                 else
                 {
-                    value = "Accept";
-                    htmlClass = "col-md-offset-2 col-md-8 btn btn-success";
+                    if (item.ReceiverId == item.SearchedProfileId)
+                    {
+                        value = "Friend Request Sent";
+                        htmlClass = "col-md-offset-2 col-md-8 btn btn-default disable";
+                        <p></p>
+                    }
+                    else
+                    {
+                        value = "Accept";
+                        htmlClass = "col-md-offset-2 col-md-8 btn btn-success";
+                    }
+
                 }
-
             }
-        }
-        using (Html.BeginForm("ResponseSearch", "SearchPeople"))
-        {
-            @Html.Hidden("searchUserId", item.SearchedProfileId)
-            @Html.Hidden("friendRequestId", item.FriendRequestId)
-            <div class="form-horizontal">
-                <div class="form-group well">
+            using (Html.BeginForm("ResponseSearch", "SearchPeople"))
+            {
+                @Html.Hidden("searchUserId", item.SearchedProfileId)
+                @Html.Hidden("friendRequestId", item.FriendRequestId)
+                <div class="form-horizontal">
+                    <div class="form-group well">
 
-                    @Html.LabelFor(modelItem => item.Name, item.Name, new { @class = "col-md-2 control-label" })
+                        @Html.LabelFor(modelItem => item.Name, item.Name, new { @class = "col-md-2 control-label" })
 
-                    <div class="">
-                        <input type="submit" id="addButton" name="searchType" class='@htmlClass' value='@value' />
+                        <div class="">
+                            <input type="submit" id="addButton" name="searchType" class='@htmlClass' value='@value' />
 
-                        @if (item.IsAccepted != null && !item.IsAccepted.Value && item.SenderId == item.SearchedProfileId)
-                        {
-                            <input type="submit" value="Ignore" name="searchType" id="addButton" class="col-md-offset-2 col-md-8 btn btn-danger" />
-                        }
-                        else if (item.IsAccepted != null && !item.IsAccepted.Value && item.ReceiverId == item.SearchedProfileId)
-                        {
-                            <input type="submit" value="Cancel Request" name="searchType" id="addButton" class="col-md-offset-2 col-md-8 btn btn-warning" />
-                        }
+                            @if (item.IsAccepted != null && !item.IsAccepted.Value && item.SenderId == item.SearchedProfileId)
+                            {
+                                <input type="submit" value="Ignore" name="searchType" id="addButton" class="col-md-offset-2 col-md-8 btn btn-danger" />
+                            }
+                            else if (item.IsAccepted != null && !item.IsAccepted.Value && item.ReceiverId == item.SearchedProfileId)
+                            {
+                                <input type="submit" value="Cancel Request" name="searchType" id="addButton" class="col-md-offset-2 col-md-8 btn btn-warning" />
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
         }
     }
 }

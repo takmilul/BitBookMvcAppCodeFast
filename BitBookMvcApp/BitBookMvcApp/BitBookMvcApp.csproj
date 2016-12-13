@@ -177,6 +177,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BasicInfoController.cs" />
+    <Compile Include="Controllers\FriendController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\SearchPeopleController.cs" />
@@ -245,6 +246,7 @@
       <DependentUpon>BitBookMvcAppSP.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\ViewModels\FriendListView.cs" />
     <Compile Include="Models\Work.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -358,6 +360,7 @@
     <Content Include="Views\BasicInfo\_AddFamilyMember.cshtml" />
     <Content Include="Views\BasicInfo\_EditEducation.cshtml" />
     <Content Include="Views\BasicInfo\_AddEducation.cshtml" />
+    <Content Include="Views\Friend\ViewAllFriend.cshtml" />
     <None Include="Views\Home\Create.cshtml" />
     <Content Include="Views\Home\Edit.cshtml" />
     <Content Include="Views\Home\Delete.cshtml" />

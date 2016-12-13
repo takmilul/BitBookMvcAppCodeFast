@@ -35,10 +35,12 @@ namespace BitBookMvcApp.Controllers
             {
                 name = (string) Session["SearchedName"];
             }*/
+
+            int userId = (int)Session["UserId"];
             string connectionString =
                 WebConfigurationManager.ConnectionStrings["BitBookMvcAppDb"].ConnectionString;
             SqlConnection connection = new SqlConnection(connectionString);
-            var query = "SELECT p.UserId, FullName, f.Id, SenderId, ReceiverId, IsAccepted, PicUrl FROM Profile p LEFT OUTER JOIN FriendRequest f ON p.UserId=f.ReceiverId OR p.UserId=f.SenderId LEFT OUTER JOIN post po ON po.Id=p.ProPicId WHERE p.FullName LIKE '%" + name + "%'";
+            var query = "SELECT p.UserId, FullName, f.Id, SenderId, ReceiverId, IsAccepted, PicUrl FROM (SELECT * FROM Profile p WHERE p.FullName LIKE '%" + name + "%') p LEFT OUTER JOIN Post po ON p.ProPicId=po.Id LEFT OUTER JOIN (SELECT * FROM FriendRequest f WHERE f.SenderId=" + userId + " OR f.ReceiverId=" + userId + ") f ON p.UserId=f.SenderId OR p.UserId=f.ReceiverId";
             var command = new SqlCommand(query, connection);
             connection.Open();
             var reader = command.ExecuteReader();
