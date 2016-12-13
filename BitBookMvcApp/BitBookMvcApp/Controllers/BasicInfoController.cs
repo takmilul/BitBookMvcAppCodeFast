@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BitBookMvcApp.Models;
-using BitBookMvcApp.ViewModels;
+using BitBookMvcApp.Models.ViewModels;
 
 namespace BitBookMvcApp.Controllers
 {

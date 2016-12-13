@@ -7,8 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using BitBookMvcApp.ViewModels.Registration;
 using BitBookMvcApp.Models;
+using BitBookMvcApp.Models.ViewModels;
+using BitBookMvcApp.Models.ViewModels.Registration;
 
 namespace BitBookMvcApp.Controllers
 {

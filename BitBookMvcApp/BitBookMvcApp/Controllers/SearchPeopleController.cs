@@ -2,112 +2,85 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using BitBookMvcApp.Models;
-using BitBookMvcApp.ViewModels;
+using BitBookMvcApp.Models.ViewModels;
 
 namespace BitBookMvcApp.Controllers
 {
     public class SearchPeopleController : Controller
     {
         private BitBookMvcAppDbContext db = new BitBookMvcAppDbContext();
-
-        
+       
         public ActionResult Index()
         {
             var profiles = db.Profiles.Include(p => p.User);
             return View(profiles.ToList());
         }
 
-        public ActionResult Details(int? id)
+        public PartialViewResult Search(string name)
         {
-            if (id == null)
+            /*string name;
+            if (searchedName != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                name = searchedName;
+                Session["SearchedName"] = searchedName;
             }
-            Profile profile = db.Profiles.Find(id);
-            if (profile == null)
+            else
             {
-                return HttpNotFound();
-            }
-            return View(profile);
-        }
-
-        public ActionResult Create()
-        {
-            ViewBag.UserId = new SelectList(db.Users, "Id", "Email");
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="Id,FirstName,LastName,FullName,DOB,Gender,ProPicId,CoverPicId,Religion,HasRelationship,RelationshipId,RelationshipWithId,About,CreateDate,UserId")] Profile profile)
-        {
-            if (ModelState.IsValid)
+                name = (string) Session["SearchedName"];
+            }*/
+            string connectionString =
+                WebConfigurationManager.ConnectionStrings["BitBookMvcAppDb"].ConnectionString;
+            SqlConnection connection = new SqlConnection(connectionString);
+            var query = "SELECT p.UserId, FullName, f.Id, SenderId, ReceiverId, IsAccepted, PicUrl FROM Profile p LEFT OUTER JOIN FriendRequest f ON p.UserId=f.ReceiverId OR p.UserId=f.SenderId LEFT OUTER JOIN post po ON po.Id=p.ProPicId WHERE p.FullName LIKE '%" + name + "%'";
+            var command = new SqlCommand(query, connection);
+            connection.Open();
+            var reader = command.ExecuteReader();
+            List<SearchResult> results = new List<SearchResult>();
+            while (reader.Read())
             {
-                db.Profiles.Add(profile);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                results.Add(new SearchResult
+                {
+                    SearchedProfileId = reader["UserId"] is DBNull ? (int?)null : Convert.ToInt32(reader["UserId"]),
+                    Name = reader["FullName"] is DBNull ? null : reader["FullName"].ToString(),
+                    ProPicUrl = reader["PicUrl"] is DBNull ? null : reader["PicUrl"].ToString(),
+                    FriendRequestId = reader["Id"] is DBNull ? (int?)null : Convert.ToInt32(reader["Id"]),
+                    SenderId = reader["SenderId"] is DBNull ? (int?)null : Convert.ToInt32(reader["SenderId"]),
+                    ReceiverId = reader["ReceiverId"] is DBNull ? (int?)null : Convert.ToInt32(reader["ReceiverId"]),
+                    IsAccepted = reader["IsAccepted"] is DBNull ? (bool?)null : Convert.ToBoolean(reader["IsAccepted"])
+                });
             }
-
-            ViewBag.UserId = new SelectList(db.Users, "Id", "Email", profile.UserId);
-            return View(profile);
-        }
-
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Profile profile = db.Profiles.Find(id);
-            if (profile == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.UserId = new SelectList(db.Users, "Id", "Email", profile.UserId);
-            return View(profile);
+            reader.Close();
+            connection.Close();
+            return PartialView("_SearchResult", results);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="Id,FirstName,LastName,FullName,DOB,Gender,ProPicId,CoverPicId,Religion,HasRelationship,RelationshipId,RelationshipWithId,About,CreateDate,UserId")] Profile profile)
+        public ActionResult ResponseSearch(string searchType, int? searchUserId, int? friendRequestId)
         {
-            if (ModelState.IsValid)
+            /*int? searchUserId = Request.Form["searchUserId"] == "" ? null :(int?) Convert.ToInt32(Request.Form["searchUserId"]);
+            int? friendRequestId = Request.Form["friendRequestId"] == "" ? null : (int?)Convert.ToInt32(Request.Form["friendRequestId"]);*/
+            switch (searchType)
             {
-                db.Entry(profile).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                case "Add Friend":
+                    return RedirectToAction("SendRequest", new { SearchedUserId = searchUserId, FriendRequestId = friendRequestId });
+                case "Ignore":
+                    return RedirectToAction("IgnoreRequest", new { SearchedUserId = searchUserId, FriendRequestId = friendRequestId });
+                case "Unfriend":
+                    return RedirectToAction("Unfriend", new { SearchedUserId = searchUserId, FriendRequestId = friendRequestId });
+                case "Accept":
+                    return RedirectToAction("AcceptRequest", new { SearchedUserId = searchUserId, FriendRequestId = friendRequestId });
+                case "Cancel Request":
+                    return RedirectToAction("CancelRequest", new { SearchedUserId = searchUserId, FriendRequestId = friendRequestId });
+                default:
+                    return RedirectToAction("Search");
             }
-            ViewBag.UserId = new SelectList(db.Users, "Id", "Email", profile.UserId);
-            return View(profile);
-        }
-
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Profile profile = db.Profiles.Find(id);
-            if (profile == null)
-            {
-                return HttpNotFound();
-            }
-            return View(profile);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Profile profile = db.Profiles.Find(id);
-            db.Profiles.Remove(profile);
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
@@ -119,34 +92,79 @@ namespace BitBookMvcApp.Controllers
             base.Dispose(disposing);
         }
 
-        public PartialViewResult Search()
-        {
-            string name = Request.Form["Name"];
-            IQueryable<SearchResult> searchReasult = db.Profiles
-                .GroupJoin(db.FriendRequests, profile => new { SenderId = profile.UserId, ReceiverId = profile.UserId }, fList => new { SenderId = fList.SenderId, ReceiverId = fList.SenderId },
-                (profile, fList) => new { Profile = profile, Friend = fList })
-                .GroupJoin(db.Posts, profileFList => profileFList.Profile.UserId, post => post.UserId,
-                (profileFList, post) => new { Profile = profileFList.Profile, Friend = profileFList.Friend, Post = post })
-                .Where(all => all.Profile.FullName.Contains(name))
-                .SelectMany(all => all.Friend.DefaultIfEmpty(),
-                 (all, fList) =>
-                 new SearchResult()
-                 {
-                     SearchedProfileId = all.Profile.UserId,
-                     ProPicUrl = all.Post.FirstOrDefault().PicUrl,
-                     Name = all.Profile.FullName,
-                     SenderId = fList.SenderId,
-                     ReceiverId = fList.ReceiverId,
-                     IsAccepted = fList.IsAccepted
-                 });
 
-            List<SearchResult> results = new List<SearchResult>(searchReasult);
-            return PartialView("_SearchResult", results);
+        public ActionResult SendRequest(int? searchedUserId, int? friendRequestId)
+        {
+            int userId = (int)Session["UserId"];
+            FriendRequest friendRequest = new FriendRequest()
+            {
+                SenderId = userId,
+                ReceiverId = searchedUserId,
+                IsAccepted = false
+            };
+            db.FriendRequests.Add(friendRequest);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
-        public ActionResult ResponseSearch(int SearchedProfileId)
+        public ActionResult IgnoreRequest(int? searchedUserId, int? friendRequestId)
         {
-            return null;
+            int userId = (int)Session["UserId"];
+            FriendRequest friendRequest =
+                db.FriendRequests.FirstOrDefault(f => f.SenderId == searchedUserId && f.ReceiverId == userId);
+            db.FriendRequests.Remove(friendRequest);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Unfriend(int? searchedUserId, int? friendRequestId)
+        {
+            int userId = (int)Session["UserId"];
+            FriendList friend = db.FriendLists.FirstOrDefault(f => f.FriendId == userId && f.UserId == searchedUserId);
+            db.FriendLists.Remove(friend);
+            friend = db.FriendLists.FirstOrDefault(f => f.UserId == userId && f.FriendId == searchedUserId);
+            db.FriendLists.Remove(friend);
+            FriendRequest friendRequest =
+                db.FriendRequests.FirstOrDefault(
+                    f =>
+                        (f.ReceiverId == searchedUserId && f.SenderId == userId) ||
+                        (f.SenderId == searchedUserId && f.ReceiverId == userId));
+            db.FriendRequests.Remove(friendRequest);
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult AcceptRequest(int? searchedUserId, int? friendRequestId)
+        {
+            int userId = (int)Session["UserId"];
+            FriendList friendList = new FriendList()
+            {
+                FriendId = searchedUserId,
+                UserId = userId
+            };
+            friendList = db.FriendLists.Add(friendList);
+            friendList = new FriendList()
+            {
+                UserId = searchedUserId,
+                FriendId = userId
+            };
+            db.FriendLists.Add(friendList);
+            FriendRequest friendRequest = db.FriendRequests.Find(friendRequestId);
+            friendRequest.IsAccepted = true;
+            db.Entry(friendRequest).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult CancelRequest(int? searchedUserId, int? friendRequestId)
+        {
+            int userId = (int)Session["UserId"];
+            FriendRequest friendRequest =
+                db.FriendRequests.FirstOrDefault(f => f.SenderId == userId && f.ReceiverId == searchedUserId);
+            db.FriendRequests.Remove(friendRequest);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

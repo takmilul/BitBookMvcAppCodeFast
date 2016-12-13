@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Search People</h2>
 
 @using (Ajax.BeginForm("Search", "SearchPeople",
     new AjaxOptions
@@ -17,7 +17,7 @@
 {
     <div class="form-inline">
         <div class="form-group">
-            @Html.TextBox("Name", null, new {@class = "form-control"})
+            @Html.TextBox("name", null, new {@class = "form-control"})
             <input type="submit" class="btn btn-primary" value="Search" name="Search" id="search"/>
         </div>
     </div>

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace BitBookMvcApp.ViewModels
+﻿namespace BitBookMvcApp.Models.ViewModels
 {
     public class SearchResult
     {
@@ -13,5 +8,6 @@ namespace BitBookMvcApp.ViewModels
         public int? SenderId { get; set; }
         public int? ReceiverId { get; set; }
         public bool? IsAccepted { get; set; }
+        public int? FriendRequestId { get; set; }
     }
 }

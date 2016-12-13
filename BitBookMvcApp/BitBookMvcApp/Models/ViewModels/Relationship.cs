@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace BitBookMvcApp.Models
+﻿namespace BitBookMvcApp.Models.ViewModels
 {
     public class Relationship
     {

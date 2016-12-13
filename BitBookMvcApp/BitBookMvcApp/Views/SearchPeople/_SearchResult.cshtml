@@ -1,33 +1,63 @@
-﻿@model List<BitBookMvcApp.ViewModels.SearchResult>
+﻿@model List<BitBookMvcApp.Models.ViewModels.SearchResult>
+@{
+    string value=null;
+}
 
-@using (Html.BeginForm("ResponseSearch", "SearchPeople"))
+@if (Model != null)
 {
-    if (Model != null)
+    foreach (var item in Model)
     {
-        foreach (var item in Model)
+        
+        string htmlClass;
+        string onClick = "";
+        if (item.IsAccepted == null)
         {
-            string value;
-            if (item.IsAccepted == null)
+            value = "Add Friend";
+            htmlClass = "col-md-offset-2 col-md-8 btn btn-primary";
+        }
+        else
+        {
+
+            if (item.IsAccepted.Value)
             {
-                value = "Add Friend";
+                value = "Unfriend";
+                htmlClass = "col-md-offset-2 col-md-8 btn btn-danger";
             }
             else
             {
-                value = item.IsAccepted.Value ? "Unfriend" : "Accept";
-            }
+                if (item.ReceiverId == item.SearchedProfileId)
+                {
+                    value = "Friend Request Sent";
+                    htmlClass = "col-md-offset-2 col-md-8 btn btn-default disable";
+                    <p ></p>
+                }
+                else
+                {
+                    value = "Accept";
+                    htmlClass = "col-md-offset-2 col-md-8 btn btn-success";
+                }
 
-            @Html.HiddenFor(model => model.First().SearchedProfileId, item.SearchedProfileId)
+            }
+        }
+        using (Html.BeginForm("ResponseSearch", "SearchPeople"))
+        {
+            @Html.Hidden("searchUserId", item.SearchedProfileId)
+            @Html.Hidden("friendRequestId", item.FriendRequestId)
             <div class="form-horizontal">
                 <div class="form-group well">
 
                     @Html.LabelFor(modelItem => item.Name, item.Name, new { @class = "col-md-2 control-label" })
 
                     <div class="">
-                        <input type="submit" value=@(value) id="addButton" name="button" class="col-md-offset-2 col-md-8 btn btn-default" />
+                        <input type="submit" id="addButton" name="searchType" class='@htmlClass' value='@value' />
 
-                        @if (item.IsAccepted != null && !item.IsAccepted.Value)
+                        @if (item.IsAccepted != null && !item.IsAccepted.Value && item.SenderId == item.SearchedProfileId)
                         {
-                            <input type="submit" value="Ignore" name="button" id="addButton" class="col-md-offset-2 col-md-8 btn btn-default" />
+                            <input type="submit" value="Ignore" name="searchType" id="addButton" class="col-md-offset-2 col-md-8 btn btn-danger" />
+                        }
+                        else if (item.IsAccepted != null && !item.IsAccepted.Value && item.ReceiverId == item.SearchedProfileId)
+                        {
+                            <input type="submit" value="Cancel Request" name="searchType" id="addButton" class="col-md-offset-2 col-md-8 btn btn-warning" />
                         }
                     </div>
                 </div>
@@ -35,3 +65,24 @@
         }
     }
 }
+<script>
+    /*$(document).ready(function () {
+        $("#addButton").addClass('disabled');
+        $("#addButton").prop('disabled', true);
+    });*/
+    /*function dis() {
+        var value = document.getElementById("addButton").value;
+        if (value === "Friend Request Sent") {
+            $("#addButton").addClass('disabled');
+            $("#addButton").prop('disabled', true);
+        }
+    }*/
+
+    /*function disable() {
+        document.getElementById("addButton").disabled=true;
+    }*/
+</script>
+
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
