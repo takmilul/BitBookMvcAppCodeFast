@@ -1,3 +1,9 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{
+    if (ViewContext.ViewBag.Title != "Signup")
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}

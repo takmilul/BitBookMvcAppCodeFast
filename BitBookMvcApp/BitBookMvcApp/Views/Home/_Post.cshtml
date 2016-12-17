@@ -1,0 +1,36 @@
+﻿@model IEnumerable<BitBookMvcApp.Models.ViewModels.Status>
+@{
+    AjaxOptions ajaxOptions = new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.InsertAfter,
+        UpdateTargetId = "addComment"
+    };
+}
+
+@if (Model != null)
+{
+    foreach (var status in Model)
+    {
+        using (Ajax.BeginForm("PostResponse", ajaxOptions))
+        {
+            <img />
+            @Html.Label("Name", User.Identity.Name)
+            <br />
+            @Html.LabelFor(model => model.First().Post.Date, status.Post.Date)
+            @Html.LabelFor(model => model.First().Post.Post1, status.Post.Post1)
+            <br />
+            <input type="submit" class="btn btn-link btn-sm" value="Like" name="LikeButton" id="LikeButton" />
+            <input type="submit" class="btn btn-link btn-sm" value="Comment" name="CommentButton" id="CommentButton" />
+        }
+    }
+}
+
+
+
+
+<div id="addComment"></div>
+<p>
+
+    @Html.ActionLink("Back to List", "Index")
+</p>
